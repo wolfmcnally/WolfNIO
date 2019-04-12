@@ -15,7 +15,7 @@ func printLog(_ items: Any...) {
     let message = items.map({ String(describing: $0) }).joined()
     let time = (elapsedTime * 10_000).rounded() / 10_000
     let name = Thread.isMainThread ? "[main]" : "[background]"
-    let prefix = [String(describing: time), name].filter({ !$0.isEmpty }).joined(separator: " ")
+    let prefix = [String(describing: time), name].joined(separator: " ")
     print("\(prefix): \(message)")
 }
 
@@ -58,10 +58,7 @@ struct Demo1 {
 
     /// Runs the demo. Completes on the main thread.
     func run() -> Future<Void> {
-        // Make the promise that will be fulfilled when the demo completes
-        let promise = MainEventLoop.shared.makePromise(of: Void.self)
-
-        // Kick off the fetching of our two integers. Note that these calls do
+        // Kick off the fetching of our three integers. Note that these calls do
         // not block and return immediately.
         let future1 = mockFetch(returning: 2, afterSeconds: 1)
         let future2 = mockFetch(returning: 3, afterSeconds: 2)
@@ -70,13 +67,10 @@ struct Demo1 {
 
         // Register what to do when both futures have succeeded.
         // `whenAllSucceed` transforms an array of futures to an array of results.
-        Future.whenAllSucceed([future1, future2, future3], on: MainEventLoop.shared).map {
+        return Future.whenAllSucceed([future1, future2, future3], on: MainEventLoop.shared).map {
             let sum = $0.reduce(0, +)
             printLog("Sum of fetched values: \(sum)")
-            promise.succeed(())
         }
-
-        return promise.futureResult
     }
 }
 

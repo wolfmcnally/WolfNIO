@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
     s.name             = 'WolfNIO'
-    s.version          = '0.2.1'
+    s.version          = '0.2.2'
     s.summary          = 'NIO and concurrency tools (including futures) for iOS apps.'
 
     # s.description      = <<-DESC
