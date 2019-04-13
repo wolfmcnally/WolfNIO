@@ -65,8 +65,9 @@ struct Demo1 {
         // Note this future kicks off third, but fulfills before the others.
         let future3 = mockFetch(returning: 5, afterSeconds: 0.5)
 
-        // Register what to do when both futures have succeeded.
-        // `whenAllSucceed` transforms an array of futures to an array of results.
+        // Register what to do when all the futures have succeeded.
+        // `whenAllSucceed()` transforms an array of futures into a
+        // future array of results.
         return Future.whenAllSucceed([future1, future2, future3], on: MainEventLoop.shared).map {
             let sum = $0.reduce(0, +)
             printLog("Sum of fetched values: \(sum)")
