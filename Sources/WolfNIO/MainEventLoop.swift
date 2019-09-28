@@ -26,6 +26,7 @@
 import NIO
 import NIOTransportServices
 import Dispatch
+import Foundation
 
 /// This is an NIO event loop that only dispatches its tasks on the main thread
 /// (`DispatchQueue.main`).
