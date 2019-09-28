@@ -22,8 +22,17 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //  SOFTWARE.
 
+import NIO
+
 /// Convenience shorthand for `EventLoopFuture`.
 public typealias Future = EventLoopFuture
 
 /// Convenience shorthand for `EventLoopPromise`.
 public typealias Promise = EventLoopPromise
+
+extension EventLoop {
+    /// Creates a new promise for the specified type.
+    public func newPromise<T>(_ type: T.Type, file: StaticString = #file, line: UInt = #line) -> Promise<T> {
+        return makePromise(of: T.self, file: file, line: line)
+    }
+}
